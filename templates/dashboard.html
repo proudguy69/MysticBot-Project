@@ -2,4 +2,8 @@
 
 {%block content%}
 
+{%for server in servers%}
+<p>{{server.name}}</p>
+{%endfor%}
+
 {%endblock content%}

@@ -34,21 +34,19 @@
             {%else%}
             <div class="navigation-profile">
                 <img class="profile-icon" src="{{avatar}}" alt="">
-                <p class="profile-name" >{{user}}#{{discriminator}}</p>
+                <p class="profile-name" >{{user}}</p>
                 <p class="profile-dropdown" id="dropdown">›</p>
             </div>
             <div class="navigation-profile-settings hidden" id="settings">
                 <a href="{{url_for('logout')}}">Logout</a>
             </div>
             {%endif%}
-            
-            {%block content%}
-
-            {%endblock content%}
-            
         </div>
     </div>
 
+    {%block content%}
+
+    {%endblock content%}
 
     <script src="../static/base.js"></script>
 </body>

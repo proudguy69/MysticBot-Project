@@ -9,6 +9,7 @@ import time
 from modules.community.welcome import Welcome
 
 
+
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix='-', intents=discord.Intents.all())
@@ -20,6 +21,8 @@ class Bot(commands.Bot):
         return await super().setup_hook()
 
 bot = Bot()
+
+
 
 tree = bot.tree
 
