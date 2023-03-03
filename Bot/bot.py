@@ -20,6 +20,7 @@ class Bot(commands.Bot):
 
 bot = Bot()
 
+tree = bot.tree
 
 @bot.command()
 async def ping(ctx):
@@ -43,7 +44,27 @@ async def table(ctx, type):
         await cussor.close()
         await db.commit()
         await db.close()
-        
+
+@bot.command()
+async def sync(ctx):
+    if ctx.author.id == 729873770990534766:
+        msg = await ctx.send("Syncing..")
+        await tree.sync(guild=discord.Object(id=929889617128349758))
+        await msg.edit(content="Completed!")
+#specific to only mystic Palace
+@tree.command(guild=discord.Object(id=929889617128349758))
+async def banish(interaction:discord.Interaction, user:discord.Member):
+    await interaction.response.defer()
+    #add the banished role
+    banished = interaction.guild.get_role(1081105609203654686)
+    await user.edit(roles=[banished])
+    #send a response and log it
+    channel = interaction.guild.get_channel(929889617837182988)
+    await channel.send(f'{interaction.user.mention} sent {user.mention} to <#1081105498247540796>!')
+    await interaction.followup.send(f"I have sent {user.mention} to <#1081105498247540796> (go to <#1079768495807529010> to see the channel)")
+
+
+
 f = open('../settings.json')
 data = json.load(f)
 
