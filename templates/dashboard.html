@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<div>
+    Current Message: {{currentdata}}
+    <form method="post">
+        <label for="msg">Message:</label>
+        <input type="text", id="msg", name="msg">
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{%endblock content%}

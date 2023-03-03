@@ -1,0 +1,83 @@
+body {
+    background-color: #142140;
+    font-family: 'Roboto', sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color: white;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #010D2A;
+    height: 3.5rem;
+}
+
+.logo {
+    width: 3rem;
+}
+
+.login-icon {
+    width: 2.3rem;
+    height: 1.7rem;
+}
+
+.nav-text {
+    margin: 1rem;
+    padding: 0px;
+    text-align: center;
+}
+
+.logo-text{
+    margin: 0rem;
+    padding: 0px;
+    text-align: center;
+}
+
+.logo-button {
+    display: flex;
+    align-items: center;
+}
+
+.login-button {
+    padding-left: 1rem;
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    transition: background-color 0.35s;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+
+.login-button:hover {
+    background-color: #3A486A;
+}
+
+.user-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.profile-item {
+    margin-right: 1rem;
+}
+
+.drowdown {
+    padding: 1rem;
+    border: 2px solid red;
+    border-radius: 15px;
+}
+
+.pfp {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 100px;
+}
