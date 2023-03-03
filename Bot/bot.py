@@ -3,6 +3,7 @@ from discord.ext import commands
 import math
 import aiosqlite
 import json
+import time
 
 #import modules
 from modules.community.welcome import Welcome
@@ -23,10 +24,13 @@ bot = Bot()
 tree = bot.tree
 
 @bot.command()
-async def ping(ctx):
-    lataency = math.floor(bot.latency * 1000)
-    msg = f"Pong! <:PPH1:981361257057751081>\n**Ping:** `{lataency}ms`"
+async def ping(ctx:commands.Context):
+    latency = math.floor(bot.latency * 1000)
+    msg = f"Pong! <:PPH1:981361257057751081>\n**Ping:** `{latency}ms`"
     await ctx.send(msg)
+    await ctx.send(ctx.guild.banner)
+    print(ctx.guild.banner.url)
+    print(ctx.guild.banner._url)
 
 @bot.command()
 async def table(ctx, type):

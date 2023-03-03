@@ -11,34 +11,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../static/base.css">
     <link rel="icon" type="image/x-icon" href="../static/crown.png">
-    
+
 </head>
 <body>
-    <nav class="navbar">
-        <div class="site-name">
-            <!--Website logo and such-->
-            <a class="logo-button" href="">
-                <img class="logo" src="../static/crown.png" alt="">
-                <p class="logo-text">Mystic Bot</p>
+    <div class="navigation">
+        <div class="navigation-left">
+            <a class="navigation-item navigation-home" href="{{url_for('index')}}">
+                <img class="navigation-icon" src="../static/Icon.png" alt="">
+                <p>Mystic Bot</p>
             </a>
+            <a class="navigation-item" href="{{url_for('dashboard')}}">Dashboard</a>
         </div>
-        {%if user %}
-        <div class="user-profile">
-            <img class="pfp profile-item" src="{{avatar}}" alt="">
-            <p class="username profile-item">{{user}}</p>
-            <a class="dropdown profile-item" href="/logout" >Logout</a>
-        </div>
-        {%else%}
-        <div class="profile-login">
-            <a class="login-button" href="/login">
-                <img class="login-icon" src="../static/discord-mark-white.png" alt="">
-                <p class="nav-text">Log in with discord</p>
-            </a>
-        </div>
-        {%endif%}
-    </nav>
-    {%block content%}
 
-    {%endblock content%}
+        <div class="navigation-right">
+            <!--If not logged in with discord-->
+            
+            {%if not user%}
+            <a class="navigation-item navigation-login" href="{{url_for('login')}}">
+                <img class="navigation-discord-icon" src="../static/discord-mark-white.png" alt="">
+                <p>Log In with Discord</p>
+            </a>
+            {%else%}
+            <div class="navigation-profile">
+                <img class="profile-icon" src="{{avatar}}" alt="">
+                <p class="profile-name" >{{user}}#{{discriminator}}</p>
+                <p class="profile-dropdown" id="dropdown">›</p>
+            </div>
+            <div class="navigation-profile-settings hidden" id="settings">
+                <a href="{{url_for('logout')}}">Logout</a>
+            </div>
+            {%endif%}
+            
+            {%block content%}
+
+            {%endblock content%}
+            
+        </div>
+    </div>
+
+
+    <script src="../static/base.js"></script>
 </body>
 </html>

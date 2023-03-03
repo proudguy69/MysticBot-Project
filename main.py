@@ -29,7 +29,6 @@ def index():
         }
         r = requests.post(f'{DISCORD_ENDPOINT}oauth2/token', data=data, headers=headers)
         clientdata = r.json()
-        print(clientdata)
         
         accesstoken = clientdata['access_token']
 
@@ -51,8 +50,8 @@ def index():
         userid = userdata['id']
         avatar = f'https://cdn.discordapp.com/avatars/{userid}/{icondata}.png?size=512'
         user = userdata['username']
-        return flask.render_template('base.html', user=user, avatar=avatar)
-    
+        return flask.render_template('base.html', user=user, avatar=avatar, discriminator=userdata['discriminator'])
+    print(user)
     return flask.render_template('base.html', user=user)
         
     
@@ -72,29 +71,13 @@ def logout():
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    db = sqlite3.connect('test.sqlite3')
-    cussor = db.cursor()
-    cussor.execute('SELECT * FROM test')
-    currentdata = cussor.fetchone()
-    if currentdata != None:
-        currentdata = currentdata[0]
-    if flask.request.method == "POST":
-        data =flask.request.form['msg']
-        if currentdata == None:
-        
-            cussor.execute(f"""INSERT INTO test 
-            (msg) 
-            VALUES 
-            (?)""", (data,))
-        if currentdata != None:
-            cussor.execute('DELETE FROM test')
-            cussor.execute(f'INSERT INTO test (msg) VALUES (?)', (data,))
-        cussor.close()
-        db.commit()
-        db.close()
-        return flask.redirect('/dashboard')
-
-    return flask.render_template('dashboard.html', currentdata=currentdata)
+    #check if logged in
+    #im going to redo the cookies, where I set the username, avatar, refresh token, and regular token all in cookies, so I dont have to make stupid request
+    user = None
+    if user:
+        return flask.render_template('dashboard.html')
+    else:
+        return flask.redirect('/login')
     
 
 
