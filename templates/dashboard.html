@@ -2,8 +2,29 @@
 
 {%block content%}
 
-{%for server in servers%}
-<p>{{server.name}}</p>
-{%endfor%}
+
+
+<div class="server-holder">
+
+    <p class="server-title">Your Servers</p>
+
+    <div class="servers">
+        
+        {%for serverobj in servers%}
+        <a href="{{url_for('dashboard', serverid=serverobj.id)}}" class="server">
+            {%if serverobj.icon != None%}
+            <img src="{{serverobj.icon}}" alt="" class="server-icon">
+            {%else%}
+            <div class="server-alternate-icon">
+                <p>{{serverobj.altname}}</p>
+            </div>
+            {%endif%}
+            <p class="server-name">{{serverobj.name}}</p>
+        </a>
+        {%endfor%}
+
+
+    </div>
+</div>
 
 {%endblock content%}

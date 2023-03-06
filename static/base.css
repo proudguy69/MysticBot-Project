@@ -1,9 +1,12 @@
 body {
     background-color: #292a2e;
     font-family: 'Roboto', sans-serif;
-    margin: 0px;
-    padding: 0px;
     color: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 a {
@@ -54,8 +57,7 @@ a {
 .navigation-login {
     display: flex;
     align-items: center;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding: 0.5rem;
     border-radius: 15px;
     transition: background-color 0.5s;
 }

@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../static/base.css">
+    <link rel="stylesheet" href="../static/dashboard.css">
     <link rel="icon" type="image/x-icon" href="../static/crown.png">
 
 </head>
@@ -20,7 +21,7 @@
                 <img class="navigation-icon" src="../static/Icon.png" alt="">
                 <p>Mystic Bot</p>
             </a>
-            <a class="navigation-item" href="{{url_for('dashboard')}}">Dashboard</a>
+            <a class="navigation-item" href="{{url_for('serverpage')}}">Dashboard</a>
         </div>
 
         <div class="navigation-right">
@@ -32,22 +33,29 @@
                 <p>Log In with Discord</p>
             </a>
             {%else%}
-            <div class="navigation-profile">
+
+             <div class="navigation-profile">
                 <img class="profile-icon" src="{{avatar}}" alt="">
                 <p class="profile-name" >{{user}}</p>
                 <p class="profile-dropdown" id="dropdown">›</p>
             </div>
+            
+            
             <div class="navigation-profile-settings hidden" id="settings">
                 <a href="{{url_for('logout')}}">Logout</a>
             </div>
+            
             {%endif%}
+
         </div>
     </div>
 
     {%block content%}
-
     {%endblock content%}
+    
+
 
     <script src="../static/base.js"></script>
+    <script src="../static/dashboard.js"></script>
 </body>
 </html>

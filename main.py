@@ -52,7 +52,6 @@ def index():
     if token:
         
         return flask.render_template('base.html', user=flask.request.cookies.get('username'), avatar=flask.request.cookies.get('avatar'))
-    print(user)
     return flask.render_template('base.html', user=user)
         
     
@@ -70,8 +69,20 @@ def logout():
         return response
     return flask.redirect('/')
 
+
+def abbreviate(string:str):
+    abbreviation = ''
+    for i, letter in enumerate(string):
+        if i == 0:
+            abbreviation = letter
+        if letter == ' ':
+            abbreviation = f'{abbreviation}{string[i+1]}'
+    return abbreviation
+        
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
-def dashboard():
+def serverpage():
     #check if logged in
     token = flask.request.cookies.get('access_token')
     if token:
@@ -82,12 +93,23 @@ def dashboard():
         for server in data:
             perms = discord.Permissions(int(server['permissions']))
             if perms.manage_guild:
-                servers.append(server)
-        print(servers)
+                print(server)
+                if server['icon'] != None:
+                    icon = f"https://cdn.discordapp.com/icons/{server['id']}/{server['icon']}.png"
+                    serverobj = {'name': server['name'], 'icon':icon, 'id':server['id']}
+                else:
+                    alt = abbreviate(server['name'])
+                    serverobj = {'name': server['name'], 'icon':None, 'id':server['id'], 'altname':alt}
+                
+                servers.append(serverobj)
+            
         return flask.render_template('dashboard.html', user=flask.request.cookies.get('username'), avatar=flask.request.cookies.get('avatar'), servers=servers)
     else:
         return flask.redirect('/login')
     
-
+@app.route('/dashboard/<serverid>')
+def dashboard(serverid):
+    print(serverid)
+    return "hi"
 
 app.run()
