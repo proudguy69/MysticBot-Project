@@ -3,28 +3,39 @@
 {%block content%}
 
 
+<div class="dashboard-module-container" id="dashboard-module-container">
 
-<div class="server-holder">
-
-    <p class="server-title">Your Servers</p>
-
-    <div class="servers">
-        
-        {%for serverobj in servers%}
-        <a href="{{url_for('dashboard', serverid=serverobj.id)}}" class="server">
-            {%if serverobj.icon != None%}
-            <img src="{{serverobj.icon}}" alt="" class="server-icon">
-            {%else%}
-            <div class="server-alternate-icon">
-                <p>{{serverobj.altname}}</p>
+    <div class="dashboard-module">
+        <div class="module-enable">
+            <button class="enable-button">
+                <div class="button-switcher"></div>
+            </button>
+            <div class="module-title">Welcome Module</div>
+        </div>
+        <div class="module-description">
+            This simple welcome module can do many things, dming the user on join to mentioning them in a specific channel, and more! choose from your set of options below
+        </div>
+        <form action="" method="post" class="module-form">
+            <label for="dmmessage">Dm Message:</label>
+            <input type="text" name="dmmessage" placeholder="Enter your message here!" id="dmmsg">
+            <label for="welcchanneldropdown">Channel Select:</label>
+            <select name="welcchanneldropdown" id="welcchanneldropdown">
+                <option value="">None</option>
+                {%for channel in channels%}
+                <option value="{{channel.id}}" class="option">#{{channel.name}}</option>
+                {%endfor%}
+            </select>
+            <label for="channelinput" class="channelinputlabel">Channel Message:</label>
+            <input type="text" name="channelinput" class="channelinput" placeholder="Type your message here!">
+            
+        </form>
+        <div class="module-save">
+                <button class="save-button" onclick="welcomeSave()">Save</button>
             </div>
-            {%endif%}
-            <p class="server-name">{{serverobj.name}}</p>
-        </a>
-        {%endfor%}
-
-
     </div>
+
+
 </div>
+
 
 {%endblock content%}
