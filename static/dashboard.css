@@ -69,67 +69,70 @@
     padding: 1rem;
 }
 
-.module-form {
+.module-button-section {
     padding: 1rem;
+
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
-    padding-bottom: 0.5rem;
 }
 
-input {
-    all:unset;
-    color: white;
-    background-color: #212124;
-    width: auto;
-    height: 2rem;
-    border-radius: 5px;
-}
-
-select {
+.module-button-green {
     all: unset;
-    color: white;
-    background-color: #212124;
-    border-radius: 5px;
+
     padding: 0.25rem;
     width: fit-content;
-    text-align: center;
-    display: flex;
-    align-items: center;
-}
+    margin: 2px;
+    margin-left: 0px;
 
-.channelinputlabel {
-    background-color: #212124;
-    border-radius: 5px;
-    padding: 0.25rem;
-    width: fit-content;
-}
-
-.removechannel {
-    all:unset;
-    color: #af1717;
-    cursor: pointer;
-}
-
-.module-save {
-    justify-self: end;
-    margin-left: auto;
-    margin-right: 1rem;
-    margin-bottom: 0.25rem;
-}
-
-.save-button {
-    all: unset;
-    border-radius: 10px;
-    padding: 0.5rem;
     background-color: #2ac42a;
-    color: white;
+
+    border-radius: 10px;
+
     cursor: pointer;
-    font-size: larger;
-    font-weight: 700;
-    transition: background-color 0.3s;
+
+    transition: background-color 0.5s;
 }
 
-.save-button:hover {
-    background-color: #478847;
+.module-button-green:hover {
+    background-color: #008f00;
+}
+
+.module-button-red {
+    all: unset;
+
+    padding: 0.25rem;
+    width: fit-content;
+
+    background-color: #af1717;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: background-color 0.5s;
+}
+
+.module-button-red:hover {
+    background-color: #7c0000;
+}
+
+.module-form-section {
+    padding: 1rem;
+}
+
+
+.module-welcome-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-textarea {
+    all: unset;
+
+    background-color: #1e1f22;
+    resize: vertical;
+    
+    width: 100%;
+    margin-top: 0.5rem;
+    border-radius: 50x;
 }

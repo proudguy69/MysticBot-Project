@@ -13,26 +13,19 @@
             <div class="module-title">Welcome Module</div>
         </div>
         <div class="module-description">
-            This simple welcome module can do many things, dming the user on join to mentioning them in a specific channel, and more! choose from your set of options below
+            This module fires an event whenever a user joins the server, select "add dm message" if you want to send a message to the user's dms, select "Add Channel Message" if you want to send a message to a desginated channel
         </div>
-        <form action="" method="post" class="module-form">
-            <label for="dmmessage">Dm Message:</label>
-            <input type="text" name="dmmessage" placeholder="Enter your message here!" id="dmmsg">
-            <label for="welcchanneldropdown">Channel Select:</label>
-            <select name="welcchanneldropdown" id="welcchanneldropdown">
-                <option value="">None</option>
-                {%for channel in channels%}
-                <option value="{{channel.id}}" class="option">#{{channel.name}}</option>
-                {%endfor%}
-            </select>
-            <label for="channelinput" class="channelinputlabel">Channel Message:</label>
-            <input type="text" name="channelinput" class="channelinput" placeholder="Type your message here!">
-            
-        </form>
-        <div class="module-save">
-                <button class="save-button" onclick="welcomeSave()">Save</button>
-            </div>
-    </div>
+        <div class="module-button-section">
+            <button class="module-button-green" onclick="WelcomeDmAdd()">+ Add Dm Message</button>
+            <button class="module-button-green" onclick="WelcomeChanAdd()">+ Add Channel Message</button>
+        </div>
+        <div class="module-form-section">
+            <form action="" method="post" class="module-form" id="welcome-form">
+                <br>
+                <label for="chanmsg1">ChannelName Message #1 | <span class="module-button-red" id="ChannelMsgRemove">- Remove</span></label>
+                <textarea class="form-textarea" name="chanmsg1" rows="2"></textarea>
+            </form>
+        </div>
 
 
 </div>
