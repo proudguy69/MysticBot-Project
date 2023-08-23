@@ -1,7 +1,6 @@
 #welcome module for the bot
 import discord
 from discord.ext import commands
-import aiosqlite
 
 class Welcome(commands.Cog):
     def __init__(self):
