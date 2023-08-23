@@ -1,4 +1,7 @@
-#welcome module for the bot
+#welcome module for the bot\
+
+#I want to optimize this
+
 import discord
 from discord.ext import commands
 
