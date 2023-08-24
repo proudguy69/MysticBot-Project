@@ -13,6 +13,11 @@ from setup import Setup
 
 
 
+original_roles = {}
+permabanned = [943609267359977552, 1118393944955420775]
+banishedl = [] # use a goddamn db for persistant storage retard
+# and store set variables as high as you can for readability
+
 class Bot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix='-', intents=discord.Intents.all())
@@ -30,11 +35,15 @@ class Bot(commands.Bot):
 bot = Bot()
 tree = bot.tree
 
+
+
+
 @bot.command()
 async def ping(ctx:commands.Context):
     latency = math.floor(bot.latency * 1000)
     msg = f"Pong! <:PPH1:981361257057751081>\n**Ping:** `{latency}ms`"
     await ctx.send(msg)
+
 
 
 
@@ -44,21 +53,69 @@ async def sync(ctx):
         msg = await ctx.send("Syncing..")
         await tree.sync()
         await msg.edit(content="Completed!")
-        
-        
-banishedl = []
+
+
+
+
 #specific to only mystic Palace
 @tree.command(guild=discord.Object(id=929889617128349758))
 async def banish(interaction:discord.Interaction, user:discord.Member):
-    await interaction.response.defer()
-    banishedl.append(user.id)
-    #add the banished role
+    global original_roles
+
+    if user.id not in original_roles: # check for if not saved already
+        original_roles[user.id] = user.roles # store the persons old roles bcus fuck you
+
+    await interaction.response.defer() # whatever this is, looks important
+
+    if user.id not in banishedl: # add user to the banished list only if they are not in it already
+        banishedl.append(user.id)
+    
+    # add banished role and remove others
     banished = interaction.guild.get_role(1081105609203654686)
     await user.edit(roles=[banished])
-    #send a response and log it
+
+    # log to admin channel
     channel = interaction.guild.get_channel(929889617837182988)
     await channel.send(f'{interaction.user.mention} sent {user.mention} to <#1081105498247540796>!')
     await interaction.followup.send(f"I have sent {user.mention} to <#1081105498247540796> (go to <#1079768495807529010> to see the channel)")
+
+
+
+
+@tree.command(guild=discord.Object(id=929889617128349758))
+async def unbanish(interaction:discord.Interaction, user:discord.Member):
+    if user.id not in permabanned:
+        global original_roles
+        await interaction.response.defer()
+
+        while user.id in banishedl:   
+            banishedl.remove(user.id) 
+        # while loop in case the user was banished multiple times like me who is probably like 17 times in the list already 
+        # which should not even happen in the first place if your code was even slightly good (i fixed it tho, you lazy ass)
+
+        banished = interaction.guild.get_role(1081105609203654686)
+        await user.remove_roles(banished)
+
+        if user.id in original_roles: # check if user is even banished and if so, restore his original roles
+            await user.edit(roles=original_roles[user.id])
+            del original_roles[user.id]
+
+            # send info to chat
+            await interaction.followup.send(f"{user.display_name} has been unbanished and their roles have been restored!")
+
+            # log to admin channel
+            channel = interaction.guild.get_channel(929889617837182988)
+            await channel.send(f'{interaction.user.mention} has unbanished {user.mention}!')
+            await interaction.followup.send(f"I have freed {user.mention} from <#1081105498247540796>")
+
+        else: 
+            await interaction.followup.send("This user wasn't banished tho you dumbass")
+            channel = interaction.guild.get_channel(929889617837182988)
+            await channel.send(f'{interaction.user.mention} is a failure and didn\'t realize that {user.mention} wasn\'t banished in the first place!')
+    else:
+        await interaction.followup.send(f"{user.display_name} is on the permabanned list, i cannot unbanish this person.")
+
+
 
 
 #reban the user when joining
@@ -67,6 +124,8 @@ async def banishjoin(member:discord.Member):
     if member.id in banishedl:
         banished = member.guild.get_role(1081105609203654686)
         await member.edit(roles=[banished])
+
+
 
 
 
