@@ -4,9 +4,26 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
+from database import Database
+
+
+
+class setupGroup(app_commands.Group):
+    def __init__(self):
+        super().__init__(name="setup", description="setup commands")
+
+
+
 class Setup(commands.Cog):
     def __init__(self) -> None:
         super().__init__()
-    @app_commands.guild_only()
-    class setup(app_commands.Group):
-        pass
+    g = setupGroup()
+
+    @g.command()
+    async def welcome(self, inte:discord.Interaction):
+        await inte.response.send_message("This is a test with example data!")
+        await Database.createServer(inte.guild.id)
+
+
+    
+    

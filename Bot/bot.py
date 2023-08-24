@@ -9,6 +9,7 @@ from welcome import Welcome
 from anonymous import Anonymous
 from eco import *
 from levels import Levels
+from setup import Setup
 
 
 
@@ -18,6 +19,7 @@ class Bot(commands.Bot):
     async def setup_hook(self):
         #add cogs
         await self.add_cog(Welcome())
+        await self.add_cog(Setup())
         # await self.add_cog(Anonymous())
         # await self.add_cog(Bumping())
         # await self.add_cog(Eco()) # needs to be reworked
@@ -33,6 +35,7 @@ async def ping(ctx:commands.Context):
     latency = math.floor(bot.latency * 1000)
     msg = f"Pong! <:PPH1:981361257057751081>\n**Ping:** `{latency}ms`"
     await ctx.send(msg)
+
 
 
 @bot.command()
