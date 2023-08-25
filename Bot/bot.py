@@ -88,17 +88,17 @@ async def unbanish(interaction:discord.Interaction, user:discord.Member):
         global original_roles
         await interaction.response.defer()
 
-        while user.id in banishedl:   
-            banishedl.remove(user.id) 
-        # while loop in case the user was banished multiple times like me who is probably like 17 times in the list already 
-        # which should not even happen in the first place if your code was even slightly good (i fixed it tho, you lazy ass)
-
         banished = interaction.guild.get_role(1081105609203654686)
         await user.remove_roles(banished)
 
-        if user.id in original_roles: # check if user is even banished and if so, restore his original roles
+        if user.id in banishedl or original_roles: # check if user is even banished and if so, restore his original roles
             await user.edit(roles=original_roles[user.id])
             del original_roles[user.id]
+
+            while user.id in banishedl:
+                banishedl.remove(user.id)
+                # while loop in case the user was banished multiple times like me who is probably like 17 times in the list already 
+                # which should not even happen in the first place if your code was even slightly good (i fixed it tho, you lazy ass)
 
             # send info to chat
             await interaction.followup.send(f"{user.display_name} has been unbanished and their roles have been restored!")
