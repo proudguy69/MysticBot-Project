@@ -52,6 +52,7 @@ async def sync(ctx):
     if ctx.author.id == 729873770990534766:
         msg = await ctx.send("Syncing..")
         await tree.sync()
+        await tree.sync(guild=discord.Object(id=929889617128349758))
         await msg.edit(content="Completed!")
 
 
@@ -82,7 +83,7 @@ async def banish(interaction:discord.Interaction, user:discord.Member):
 
 
 
-@tree.command(guild=discord.Object(id=929889617128349758))
+@tree.command(guild=discord.Object(id=929889617128349758), name="unbanish")
 async def unbanish(interaction:discord.Interaction, user:discord.Member):
     if user.id not in permabanned:
         global original_roles
