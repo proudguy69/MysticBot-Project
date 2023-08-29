@@ -3,6 +3,7 @@ from discord.ext import commands
 import math
 import json
 import time
+from discord.ext import tasks
 
 #import modules
 from welcome import Welcome
@@ -10,6 +11,7 @@ from anonymous import Anonymous
 from eco import *
 from levels import Levels
 from setup import Setup
+from message import Message
 
 
 
@@ -23,7 +25,7 @@ class Bot(commands.Bot):
         super().__init__(command_prefix='-', intents=discord.Intents.all())
     async def setup_hook(self):
         #add cogs
-        await self.add_cog(Welcome())
+        await self.add_cog(Message())
         await self.add_cog(Setup())
         # await self.add_cog(Anonymous())
         # await self.add_cog(Bumping())
@@ -57,7 +59,6 @@ async def sync(ctx):
 
 
 
-
 #specific to only mystic Palace
 @tree.command(guild=discord.Object(id=929889617128349758))
 async def banish(interaction:discord.Interaction, user:discord.Member):
@@ -74,7 +75,8 @@ async def banish(interaction:discord.Interaction, user:discord.Member):
     # add banished role and remove others
     banished = interaction.guild.get_role(1081105609203654686)
     await user.edit(roles=[banished])
-
+    # ping the loser every 1 minute
+    await pingloser()
     # log to admin channel
     channel = interaction.guild.get_channel(929889617837182988)
     await channel.send(f'{interaction.user.mention} sent {user.mention} to <#1081105498247540796>!')
