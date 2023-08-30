@@ -15,8 +15,9 @@ class MessageGroup(app_commands.Group):
     def __init__(self):
         super().__init__(name="message", description="Commands to create, edit, and delete custom messages")
 
-
-
+# mock DB
+embeds = []
+content = ""
 
 class Message(commands.Cog):
     def __init__(self) -> None:
@@ -32,21 +33,28 @@ class Message(commands.Cog):
     class CreateView(ui.View):
         def __init__(self):
             super().__init__(timeout=300)
-        embeds = []
-        content = ""
+    
+        
 
 
 
 
         # the modal for editing the messages content
         class CreateViewContentModal(ui.Modal):
-            def __init__(self):
+            def __init__(self, view:ui.View,content:str):
                 super().__init__(title="Content Editor", timeout=300)
-            contentMessage = ui.TextInput(label="Content", style=discord.TextStyle.paragraph, placeholder="The actual content to the message")
+                self.view = view
+                self.contentMessage.default = content
 
+            contentMessage = ui.TextInput(label="Content", style=discord.TextStyle.paragraph, placeholder="The actual content to the message")
+            
+            
             async def on_submit(self, interaction:discord.Interaction):
-                self.children[0].label = "Edit Content"
-                await interaction.edit_original_response(view=self)
+                self.view.children[0].label = "Edit Content"
+                global content
+                content = self.contentMessage.value
+                await interaction.channel.send(f"You entered {content}")
+                await interaction.response.edit_message(view=self.view)
         
 
 
@@ -63,7 +71,9 @@ class Message(commands.Cog):
         # the button to add content
         @ui.button(label="Add Content", style=discord.ButtonStyle.green)
         async def CreateViewAddContent(self, interaction:discord.Interaction, button:discord.Button):
-            modal = self.CreateViewContentModal()
+            global content
+            print(f"Content is {content}")
+            modal = self.CreateViewContentModal(self, content)
             await interaction.response.send_modal(modal)
             
             
