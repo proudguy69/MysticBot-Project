@@ -152,6 +152,7 @@ class Message(commands.Cog):
         # the button to add embeds
         @ui.button(label="Add Embed", style=discord.ButtonStyle.green)
         async def CreateViewAddEmbed(self, interaction:discord.Interaction, button:discord.Button):
+            # self.remove_item() # Need to add the select menu to the views varible so we can remove it once this is pressed
             await interaction.response.send_modal(self.CreateViewEmbedModal(self))
 
 
@@ -160,6 +161,11 @@ class Message(commands.Cog):
         async def CreateViewEditEmbeds(self, interaction:discord.Interaction, button:discord.Button):
             self.add_item(self.CreateViewEmbedSelect(self))
             await interaction.response.edit_message(view=self)
+
+        # the button to edit embeds
+        @ui.button(label="Delete Embeds", style=discord.ButtonStyle.red, disabled=True)
+        async def CreateViewDeleteEmbeds(self, interaction:discord.Interaction, button:discord.Button):
+            await interaction.response.defer()
 
 
         
