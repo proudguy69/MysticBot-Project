@@ -58,7 +58,31 @@ class Message(commands.Cog):
                 await self.view.message.edit(embeds=self.view.embeds)
                 await interaction.response.defer()
                 
+        
 
+
+        #this is the modal for delting embeds
+        class CreatViewDeleteEmbedSelect(ui.Select):
+            def __init__(self, view):
+                options = []
+                for i, embed in enumerate(view.embeds):
+                    options.append(discord.SelectOption(label=f"Embed {i}",value = i))
+                
+                super().__init__(placeholder="Select an embed to delete", options=options)
+
+            async def callback(self, interaction):
+                self.view.embeds.remove(self.view.embeds[int(self.values[0])])
+                self.view.remove_item(self)
+
+                # check if their are NO embeds and content
+                if len(self.view.embeds)==0 and self.view.content == None:
+                    self.view.children[2].disabled = True
+                    self.view.children[3].disabled = True
+                    await self.view.message.delete()
+                    self.view.message = None
+                else: # otherwise just edit the message, this is to avoid sending an empty message
+                    await self.view.message.edit(embeds=self.view.embeds)
+                await interaction.response.edit_message(view=self.view)
 
         
         #the edit embed select view
@@ -71,12 +95,12 @@ class Message(commands.Cog):
                 super().__init__(placeholder="Select an embed to edit", options=options, min_values=0, max_values=1)
             
             async def callback(self, interaction:discord.Interaction):
+                self.view.remove_item(self)
                 if len(self.values) == 0:
                     await interaction.response.defer()
                 else:
                     await interaction.response.send_modal(self.view.CreateViewEditEmbedModal(view=self.view, embed=self.values[0]))
-
-
+                await interaction.edit_original_response(view=self.view)
 
 
 
@@ -99,7 +123,9 @@ class Message(commands.Cog):
                 # checks and balances
                 if self.view.children[0].label == "Add Content": #change the label from add content to edit
                     self.view.children[0].label = "Edit Content"
+                    self.view.children[4].disabled = False
                     await interaction.response.edit_message(view=self.view) #edit the view
+                    print(self.view.message)
                     if self.view.message == None: # if there isnt a "message object" yet, then create one
                         self.view.message = await interaction.channel.send(self.contentMessage.value)
                     else: #if there already is, then just set the content aspect   
@@ -113,6 +139,7 @@ class Message(commands.Cog):
                 self.view.content = self.contentMessage.value
 
                         
+
 
         # the embed editor
         class CreateViewEmbedModal(ui.Modal):
@@ -134,6 +161,7 @@ class Message(commands.Cog):
                     self.view.embeds.append(embed)
                     self.view.message = await interaction.channel.send(embeds=self.view.embeds)
                 self.view.children[2].disabled = False
+                self.view.children[3].disabled = False
                 await interaction.response.edit_message(view=self.view)
 
 
@@ -146,8 +174,6 @@ class Message(commands.Cog):
             modal = self.CreateViewContentModal(self)
             await interaction.response.send_modal(modal)
             
-            
-
 
         # the button to add embeds
         @ui.button(label="Add Embed", style=discord.ButtonStyle.green)
@@ -165,7 +191,21 @@ class Message(commands.Cog):
         # the button to edit embeds
         @ui.button(label="Delete Embeds", style=discord.ButtonStyle.red, disabled=True)
         async def CreateViewDeleteEmbeds(self, interaction:discord.Interaction, button:discord.Button):
-            await interaction.response.defer()
+            self.add_item(self.CreatViewDeleteEmbedSelect(self))
+            await interaction.response.edit_message(view=self)
+
+        # the button to delete content
+        @ui.button(label="Delete Content", style=discord.ButtonStyle.red, disabled=True)
+        async def CreateViewDeleteContent(self, interaction:discord.Interaction, button:discord.Button):
+            self.content = None
+            button.disabled = True
+            button.label = "Add Content"
+            # check if there is no embeds
+            if len(self.embeds) == 0:
+                await self.message.delete()
+                self.message = None
+            await interaction.response.edit_message(view=self)
+            
 
 
         
