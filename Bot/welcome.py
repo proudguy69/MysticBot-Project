@@ -15,16 +15,22 @@ class Welcome(commands.Cog):
         JOINCHANNEL = member.guild.get_channel(929889618009161762)
         server = member.guild
         JOINMESSAGE = f"""
-        <:PPH1:981361257057751081> Welcome {member.mention} to {server.name}! <:PPH1:981361257057751081>
+        <:PPH1:981361257057751081> <@&1180280117952528466>  Welcome {member.mention} to {server.name}! <:PPH1:981361257057751081>
         """
         JOINEMBED = discord.Embed(description="""
-        Please make sure to check out our <#929889617837182994> and <#1079768495807529010>!Then please <#1013689489396334653> and get to chatting in <#929889618009161762>!
+        Please make sure to check out these channels:\n<#929889617837182994>\n<#1013689489396334653>\n<#929889618009161762>!\n
+        Also make sure to right click the server or hold tap the icon on mobile, and press "Show all channels"
         <:PPH1:981361257057751081><:PPH1:981361257057751081><:PPH1:981361257057751081><:PPH1:981361257057751081>
         """, color=0xffa1dc)
 
         DMMEMBERMESSAGE = None
 
-        DMEMBEDDESCRIPTION = f" Hello! I am Mystic Bot! The personal bot for {server.name}! <:PPH1:981361257057751081>\n\nPlease be paitent with our server, it's fairly small so don't expect people to me chatting all the time, If you'd like to get things going, feel free to mention @dead chat ping\nPlease note attemtping to abuse that will result in punishments. <:PPH1:981361257057751081>\n\nI, the server owner greatly appreciate you being here. If their is anything you want, or need, Please let me know. you can find and dm me here <@729873770990534766> (Napalie#0002)\nPlease do not randomly dm me, Thanks <:PPH1:981361257057751081>"
+        DMEMBEDDESCRIPTION = f"""
+        Hello! I am Kai, the bots owner, I'd like to take a moment to PLEASE ask you to stay in the server,
+        I understand it may not be active at this current point in time, but feel free to chat up, someone will welcome you when they notice, Thanks.
+        If you have any questions or suggestions feel free to dm or ping me, Thanks, -<@729873770990534766>
+        """
+
         DMEMBED = discord.Embed(title=f'Welcome to {server.name}', description=DMEMBEDDESCRIPTION, color=0xffa1dc)
 
 

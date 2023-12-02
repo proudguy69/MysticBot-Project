@@ -27,6 +27,7 @@ class Bot(commands.Bot):
         #add cogs
         await self.add_cog(Message())
         await self.add_cog(Setup())
+        await self.add_cog(Welcome())
         # await self.add_cog(Anonymous())
         # await self.add_cog(Bumping())
         # await self.add_cog(Eco()) # needs to be reworked
